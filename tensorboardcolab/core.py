@@ -20,7 +20,6 @@ class TensorBoardColab:
             get_ipython().system_raw('rm -Rf ' + graph_path)
             print('Wait for %d seconds...' % startup_waiting_time)
             time.sleep(sleep_time)
-            print("here:", graph_path)
             get_ipython().system_raw('tensorboard --logdir %s --host 0.0.0.0 --port %d &' % (graph_path, port))
             time.sleep(sleep_time)
             get_ipython().system_raw('ngrok http %d &' % port)
@@ -39,6 +38,7 @@ class TensorBoardColab:
 
         print("TensorBoard link:")
         print(tensorboard_link)
+        print("here:", graph_path)
 
     def get_graph_path(self):
         return self.graph_path
