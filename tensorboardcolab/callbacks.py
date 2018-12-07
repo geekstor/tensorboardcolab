@@ -7,7 +7,7 @@ import io
 from tensorboardcolab.core import TensorBoardColab
 
 class TensorBoardColabCallback(TensorBoard):
-    def __init__(self, tbc=None, write_graph=True, **kwargs):
+    def __init__(self, tbc=None, name=None, write_graph=True, **kwargs):
         # Make the original `TensorBoard` log to a subdirectory 'training'
 
         if tbc is None:
@@ -15,11 +15,18 @@ class TensorBoardColabCallback(TensorBoard):
 
         log_dir = tbc.get_graph_path()
 
-        training_log_dir = os.path.join(log_dir, 'training')
+        if name is None:
+            training_log_dir = os.path.join(log_dir, 'training')
+        else:
+            training_log_dir = os.path.join(log_dir, name + '_training')
+            
         super(TensorBoardColabCallback, self).__init__(training_log_dir, **kwargs)
 
         # Log the validation metrics to a separate subdirectory
-        self.val_log_dir = os.path.join(log_dir, 'validation')
+        if name is None:
+            self.val_log_dir = os.path.join(log_dir, 'validation')
+        else: 
+            self.val_log_dir = os.path.join(log_dir, name + '_validation')
 
     def set_model(self, model):
         # Setup writer for validation metrics
