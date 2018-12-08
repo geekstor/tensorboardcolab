@@ -17,7 +17,6 @@ class TensorBoardColab:
         sleep_time = startup_waiting_time / 3.0
         while not setup_passed:
             get_ipython().system_raw('kill -9 $(sudo lsof -t -i:%d)' % port)
-            get_ipython().system_raw('rm -Rf ' + graph_path)
             print('Wait for %d seconds...' % startup_waiting_time)
             time.sleep(sleep_time)
             get_ipython().system_raw('tensorboard --logdir %s --host 0.0.0.0 --port %d &' % (graph_path, port))
@@ -38,7 +37,7 @@ class TensorBoardColab:
 
         print("TensorBoard link:")
         print(tensorboard_link)
-        print("here:", graph_path)
+        print("Graph Path:", graph_path)
 
     def get_graph_path(self):
         return self.graph_path
